@@ -8,4 +8,15 @@ const userSchema = new mongoose.Schema({
     userName: {type: String, required: true, unique: true, trim: true, maxLength: 50, minLength: 6 },
     password: {type: String, required: true, trim: true, maxLength: 50 }
 })
-export const userModel = mongoose.model('Users',userSchema)
+
+const AccountsSchema = new mongoose.Schema({
+    userId: {type: mongoose.Types.ObjectId, ref:'Users',required: true},
+    balance: {type: Number, required: true}
+})
+
+const userModel = mongoose.model('Users',userSchema)
+const AccountsModel = mongoose.model('Accounts',AccountsSchema)
+
+
+
+export{ userModel,AccountsModel}

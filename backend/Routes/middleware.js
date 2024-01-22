@@ -1,25 +1,31 @@
-import JWT_SECRET from "./config";
-import { jwt } from "jsonwebtoken";
+import JWT_SECRET from "./config.js";
+import jwt from "jsonwebtoken";
 
-const authMiddelware = async (req,res,next)=>{
-    const authHeader = req.headers['authorization']
-    if(!authHeader || !authHeader.startsWith('Bearer')){
-        return res.json({
-            msg:'Header Error'
-        })
-    }
-  try {
-    const bearerToken = bearerHeader.split(' ')[1]
-    let data = await jwt.verify(bearerToken, JWT_SECRET,(err,decoded)=>{
-        if(err){ 
-            res.status(403).json({
-            msg:'Unauthorized Token!'
-        })}
-    })
-    req.userId = data.userId
-    next();
-  } catch (error) {
-    res.status(403).json(error.message)
+const authMiddleware = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.json({
+      msg: 'Header Error'
+    });
   }
-}
-export default authMiddelware
+
+  try {
+    const bearerToken = authHeader.split(' ')[1];
+    let data = jwt.verify(bearerToken, JWT_SECRET, (err, decoded) => {
+      if (err) {
+        return res.status(403).json({
+          msg: 'Unauthorized Token!'
+        });
+      }
+      req.userId = decoded.userId;
+      next();
+    });
+ 
+    
+  } catch (error) {
+    return res.status(403).json(error.message);
+  }
+};
+
+export default authMiddleware;
