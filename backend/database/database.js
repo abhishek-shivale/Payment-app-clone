@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
 })
 
 const AccountsSchema = new mongoose.Schema({
-    userId: {type: mongoose.Types.ObjectId, ref:'Users',required: true},
+    userId: {type: mongoose.Schema.Types.ObjectId , ref:'Users',required: true},
     balance: {type: Number, required: true}
 })
 

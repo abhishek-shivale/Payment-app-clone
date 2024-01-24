@@ -18,6 +18,7 @@ const authMiddleware = async (req, res, next) => {
           msg: 'Unauthorized Token!'
         });
       }
+      console.log(decoded);
       req.userId = decoded.userId;
       next();
     });

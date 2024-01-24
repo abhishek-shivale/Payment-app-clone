@@ -47,8 +47,8 @@ try {
         })
         const userId = user._id
         await AccountsModel.create({
-            userId:userId,
-            balance: 1 + Math.floor(Math.random()*10000)
+            userId: userId,
+            balance: Math.round(1 + Math.random()*10000)
         })
         
         const token = jwt.sign({userName:allReq.userName}, JWT_SECRET)
@@ -116,7 +116,7 @@ user.put('/', authMiddelware , async(req,res)=>{
 // bulk get route
 
 user.get('/bulk', authMiddelware ,async(req,res)=>{
-    const filter = toString(req.params.filter)
+    const filter = String(req.query.filter);
     try {
         const user = await userModel.find({$or: [
         {

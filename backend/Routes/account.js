@@ -7,9 +7,10 @@ const accountRouter = express.Router()
 
 accountRouter.get('/balance', authMiddleware , async (req,res)=>{
    try {
-    const account = await AccountsModel.findOne({userId:req.userId})
+    const account = await AccountsModel.findOne({userId: req.userId})
+    console.log(account);
     if(!account){
-        return res.json('Try again')
+        return res.json('Try again account not found')
     }
     return res.json({balance: account.balance})
    } catch (error) {
@@ -35,15 +36,16 @@ accountRouter.post('/transfer', authMiddleware , async (req,res)=>{
                 msg: "Account not found"
             })
         }
-        await account.updateOne({userId:req.userId},{$inc:{balance: -amount}}).session(session)
-        await account.updateOne({userId:to},{$inc:{balance: amount}}).session(session)
+        await AccountsModel.updateOne({ userId: req.userId }, { $inc: { balance: -amount } }).session(session)
+        await AccountsModel.updateOne({ userId: to }, { $inc: { balance: amount } }).session(session)
         await session.commitTransaction()
         return res.status(200).json({
             msg:'transaction successful!!'
         })
     } catch (error) {
+        await session.abortTransaction()
         return res.status(400).json(error.message)
-    }finally {
+    } finally {
         session.endSession();
     }
 })
