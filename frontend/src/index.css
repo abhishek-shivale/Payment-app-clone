@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-class {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    padding: 0.75rem 0.5rem;
+  }
+.custom-text {
+    display: block;
+    font-size: 0.875rem; 
+    font-weight: 500;   
+    color: #4b5563;     
+  }
+  
