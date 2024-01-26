@@ -8,7 +8,6 @@ const accountRouter = express.Router()
 accountRouter.get('/balance', authMiddleware , async (req,res)=>{
    try {
     const account = await AccountsModel.findOne({userId: req.userId})
-    console.log(account);
     if(!account){
         return res.json('Try again account not found')
     }
@@ -31,6 +30,7 @@ accountRouter.post('/transfer', authMiddleware , async (req,res)=>{
             })
         }
         const sendTo = await AccountsModel.findOne({userId:to}).session(session)
+        console.log(to);
         if(!sendTo){
             return res.status(404).json({
                 msg: "Account not found"

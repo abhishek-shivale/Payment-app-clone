@@ -26,7 +26,6 @@ const UpdateSchema = zod.object({
 
 user.post('/signup', async (req,res)=>{
     const allReq = req.body;
-    console.log(allReq);
     const success = signupSchema.safeParse(allReq)
     if(!success){
         return res.json({

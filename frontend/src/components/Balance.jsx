@@ -11,12 +11,12 @@ function Balance() {
             }
         }
         const res = await axios.get(`http://localhost:3000/api/v1/account/balance/`,sendData)
-        const data = await res.data.balance
-        setBalance(data)
+        const data = await res.data
+        setBalance(data.balance)
     }
     useEffect(()=>{
         FetchBalance()
-    },[])
+    },[balance])
   return (
     <div className=''>
         
